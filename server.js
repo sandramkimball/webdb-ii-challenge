@@ -5,14 +5,25 @@ server.use(express.json());
 
 //GET
 server.get('/', (req, res)=> {
-    knex
+    knex('cars')
     .select('*')
-    .from('cars')
     .then(cars => {
-        res.status(200).json({accounts});
+        res.status(200).json(cars);
     })
     .catch(error=> {
         res.status(500).json({error: 'Failed to get cars.', error})
+    });
+});
+
+server.get('/:id', (req, res)=> {
+    knex('cars')
+    .select('*')
+    .where({id: req.params.id})
+    .then(car => {
+        res.status(200).json(car);
+    })
+    .catch(error=> {
+        res.status(500).json({error: 'Failed to get car.', error})
     });
 });
 
